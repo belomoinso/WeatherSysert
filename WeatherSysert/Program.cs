@@ -22,7 +22,7 @@ namespace YandexWeatherSysert
                 string html = w.DownloadString("https://yandex.ru/pogoda/sysert");
                 string sub = html.Substring(html.IndexOf("Текущая температура"));
                 sub = sub.Substring(sub.IndexOf("temp__value") + 13);
-                string temp = sub.Substring(0, sub.IndexOf("</span>"));
+                string temp = sub.Substring(0, sub.IndexOf("<"));
 
                 return temp;
             }
