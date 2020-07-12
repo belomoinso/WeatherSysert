@@ -11,7 +11,7 @@ namespace YandexWeatherSysert
         {
             Parser par = new Parser();
 
-            Console.Write("Сейчас в Сысерти {0}\u00B0C",par.getCurTemp(par.getPage()));
+            Console.Write("Сейчас в Сысерти {0}",par.getCurTemp(par.getPage()));
 
 
         }       
@@ -33,7 +33,10 @@ namespace YandexWeatherSysert
         {
             string sub = s.Substring(s.IndexOf("Текущая температура"));
             sub = sub.Substring(sub.IndexOf("temp__value") + 13);
-            return sub.Substring(0, sub.IndexOf("<"));
+            string temp = sub.Substring(0, sub.IndexOf("<"));
+            sub = sub.Substring(sub.IndexOf("link__condition day-anchor i-bem") + 74);
+            sub = sub.Substring(0, sub.IndexOf("<"));
+            return temp + ("\u00B0C ") + sub;
         }
 
     }
