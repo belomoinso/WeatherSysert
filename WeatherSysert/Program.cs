@@ -9,29 +9,31 @@ namespace YandexWeatherSysert
     {
         static void Main(string[] args)
         {
-            WebClient wc = new WebClient();
-            Console.Write("Сейчас в Сысерти {0}\u00B0C", getTemp(wc));
+            Parser par = new Parser();
+
+            Console.Write("Сейчас в Сысерти {0}\u00B0C",par.getCurTemp(par.getPage()));
 
 
-        }
+        }       
 
-        static string getTemp(WebClient w)
+    }
+
+    class Parser
+    {
+        public string getPage()    // скачать страницу с погодой
         {
             try
             {
-                string html = w.DownloadString("https://yandex.ru/pogoda/sysert");
-                string sub = html.Substring(html.IndexOf("Текущая температура"));
-                sub = sub.Substring(sub.IndexOf("temp__value") + 13);
-                string temp = sub.Substring(0, sub.IndexOf("<"));
-
-                return temp;
+                return (new WebClient()).DownloadString("https://yandex.ru/pogoda/sysert");
             }
-            catch (Exception)
-            {
-                return "Город не найден";
-            }
+            catch { return "Город не найден"; }
+        }
 
-
+        public string getCurTemp(string s)     // извлечь из страницы значение текущей температуры
+        {
+            string sub = s.Substring(s.IndexOf("Текущая температура"));
+            sub = sub.Substring(sub.IndexOf("temp__value") + 13);
+            return sub.Substring(0, sub.IndexOf("<"));
         }
 
     }
