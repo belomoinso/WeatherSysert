@@ -10,10 +10,15 @@ namespace YandexWeatherSysert
         static void Main(string[] args)
         {
             Parser par = new Parser();
+            string page = par.getPage();
+            if (!page.Equals("Город не найден"))
+            {
+                Console.Write("Сейчас в {0} {1}\nДля Выхода нажмите любую клавишу...",par.getCity(page), par.getCurTemp(page));
+            }
 
-            Console.Write("Сейчас в Сысерти {0}",par.getCurTemp(par.getPage()));
+            else Console.Write(page);
 
-
+            Console.ReadKey();
         }       
 
     }
@@ -28,6 +33,13 @@ namespace YandexWeatherSysert
             }
             catch { return "Город не найден"; }
         }
+
+        public string getCity(string s) // извлечь название города
+        {
+            string sub = s.Substring(s.IndexOf("Погода в") + 9);
+            return sub.Substring(0, sub.IndexOf("<"));
+        }
+
 
         public string getCurTemp(string s)     // извлечь из страницы значение текущей температуры
         {
